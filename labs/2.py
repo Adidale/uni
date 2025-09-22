@@ -1,4 +1,4 @@
-# Variant 21
+# Variant 21 
 import math
 
 # colleting data
