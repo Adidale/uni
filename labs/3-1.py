@@ -1,4 +1,4 @@
-# excercise 5
+# exercise 5
 import math
 
 # collecting data

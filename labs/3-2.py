@@ -1,3 +1,5 @@
+# exercise 9
+
 # collecting data
 n = int(input('Enter month (1-12): '))
 
