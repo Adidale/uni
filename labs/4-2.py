@@ -7,7 +7,7 @@ while True:
   print('Invalid number. Try again')
 
 k = 0
-while 5**k < n:
+while 5**k <= n:
   k += 1
 
 print(f'K = {k}')
