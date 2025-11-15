@@ -26,7 +26,7 @@ def cargar_todos_keywords(dirpath):
     return pd.DataFrame(series)
 
 # --- PROGRAMA PRINCIPAL ---
-def main():
+def main(corr_threshold=0.85):
     directorio = os.path.dirname(os.path.abspath(__file__))
     df_trends = cargar_todos_keywords(directorio)
     # Remove empty columns
@@ -68,6 +68,34 @@ def main():
     print(f'Tráfico total simple (suma): {trafico_total}')
     print(f"Ajuste correlacional (solo correlaciones > 0.95, limitado al tráfico total): {ajuste:.2f}")
     print(f'Tráfico estimado ajustado: {trafico_ajustado:.2f}')
+    # Threshold-based grouping to avoid over-correction
+    # Build connected components where pairwise correlation >= corr_threshold
+    unvisited = set(keywords_comunes)
+    components = []
+    while unvisited:
+        seed = unvisited.pop()
+        component = {seed}
+        frontier = {seed}
+        while frontier:
+            new_frontier = set()
+            for u in frontier:
+                neighbors = {v for v in unvisited if matriz_corr.loc[u, v] >= corr_threshold}
+                new_frontier |= neighbors
+            unvisited -= new_frontier
+            component |= new_frontier
+            frontier = new_frontier
+        components.append(sorted(component))
+    # Sum only the largest volume per component
+    group_summands = []
+    for comp in components:
+        vols = [(kw, float(dict_trafico[kw])) for kw in comp]
+        top_kw, top_vol = max(vols, key=lambda x: x[1])
+        group_summands.append((comp, top_kw, top_vol))
+    dedup_sum = sum(v for _, _, v in group_summands)
+    print(f'\nEstimación con umbral de correlación >= {corr_threshold}:')
+    for comp, top_kw, top_vol in group_summands:
+        print(f'Grupo: {comp} -> cuenta {top_kw} = {top_vol}')
+    print(f'Tráfico estimado (agrupado por correlación): {dedup_sum:.2f}')
 
 if __name__ == "__main__":
     main()
