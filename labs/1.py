@@ -8,4 +8,4 @@ group_number = int(input('В какой группе Вы учитесь?'))
 # showing user data on console
 print('Ваше имя:', name)
 print('Ваш любимый предмет в МАИ:', favorite_subject)
-print('Вы учитесь в группе номер:', group_number)
+print('Вы учитесь в группе номер:', group_number)|
