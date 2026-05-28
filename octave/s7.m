@@ -13,18 +13,22 @@ FQ = [Q*cosd(30) 0 -Q*sind(30)];
 
 A = [0 0 0];
 B = [0 2.5*a 0];
-C = [-a 1.5*a b];
-E = [-0.5*a 1.5*a c];
+C = [-b*cosd(60) 1.5*a b*sind(60)];
+E = [-c*cosd(60) 1.5*a c*sind(60)];
 
 for i = 1:length(Q)
-  FQ = [Q(i)*cosd(30) 0 -Q(i)*sind(30)]
+  FQ = [Q(i)*cosd(30) 0 -Q(i)*sind(30)];
 
-  EQF = FA + FB + FC + FQ == [0 0 0]
-  EQM = cross(B,FB) + cross(C,FC) + cross(A,FA) + cross(E,FQ) == [0 0 0]
+  EQF = FA + FB + FC + FQ == [0 0 0];
+  EQM = cross(B,FB) + cross(C,FC) + cross(A,FA) + cross(E,FQ) == [0 0 0];
 
-  Sys = [EQF(1) EQF(3) EQM]
+  if abs(Q(i) - 2) < 1e-12
+    disp('EQF = '); disp(EQF);
+    disp('EQM = '); disp(EQM);
+  endif
+
+  Sys = [EQF(1) EQF(3) EQM];
   solution = vpasolve(Sys,[XA ZA XB ZB RC]);
-  solution
 
   xa(i) = eval(solution(1));
   za(i) = eval(solution(2));
@@ -55,20 +59,24 @@ subplot(3,4,5)
 plot(Q,xb)
 title('XB')
 
+subplot(3,4,7)
+plot(Q,zb)
+title('ZB')
+
 subplot(3,4,8)
 plot(Q,rb)
 title('RB')
 
-subplot(3,4,9)
+subplot(3,4,12)
 plot(Q,rc)
 title('RC')
 
-printf('XA =%f\n',xa(length(Q)));
-printf('ZA =%f\n',za(length(Q)));
-printf('RA =%f\n',ra(length(Q)));
+printf('XA =%f\n',xa(length(Q)))
+printf('ZA =%f\n',za(length(Q)))
+printf('RA =%f\n',ra(length(Q)))
 
-printf('XB =%f\n',xb(length(Q)));
-printf('ZB =%f\n',zb(length(Q)));
-printf('RB =%f\n',rb(length(Q)));
+printf('XB =%f\n',xb(length(Q)))
+printf('ZB =%f\n',zb(length(Q)))
+printf('RB =%f\n',rb(length(Q)))
 
-printf('RC =%f\n',rc(length(Q)));
+printf('RC =%f\n',rc(length(Q)))

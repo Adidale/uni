@@ -95,7 +95,7 @@ POINTB1 = plot(l, 0, 'o', 'Markersize', 5, 'markerfacecolor', [0 0 0]);
 POINTB = plot(yB(1), -x(1), 'o', 'Markersize', 5, 'markerfacecolor', [0 0 0]);
 B1B = plot([l yB(1)], [0 -x(1)], 'color', [0 0 0]);
 
-AB = plot([yA(1) yB(1)], [-x(1) -x(1)], 'color', [0 0 0]);
+AB = plot([yA(1) yB(1)], [-x(1) -x(1)], 'color', [0 0 0], 'linewidth', 3);
 POINTO = plot(yO(1), -x(1), 'o', 'Markersize', 5, 'markerfacecolor', [0 0 0]);
 
 OC = plot([yO(1) yC(1)], [-x(1) -xC(1)], 'color', [0 0 0]);
